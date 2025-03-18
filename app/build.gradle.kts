@@ -78,4 +78,7 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-compose:3.0.3")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.3")
     implementation (libs.places)
+
+    implementation ("androidx.glance:glance-appwidget:1.1.0")
+
 }

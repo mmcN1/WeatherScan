@@ -1,5 +1,10 @@
 package com.mehmettemiz.appweather.screen
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,6 +26,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -39,6 +49,7 @@ import com.mehmettemiz.appweather.ui.theme.bgColor
 import com.mehmettemiz.appweather.ui.theme.oswaldFont
 import com.mehmettemiz.appweather.ui.theme.poppinsFont
 import com.mehmettemiz.appweather.viewmodel.WeatherViewModel
+import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
 @Composable
@@ -49,13 +60,22 @@ fun LocationInfo(
     viewModel: WeatherViewModel,
     customBackground: List<Color>
 ) {
+    var triggerAnimation = remember { MutableTransitionState(false).apply { targetState = true } }
+
     Box(modifier = Modifier
         .fillMaxSize()
         .background(bgColor)
+        .padding(top = 20.dp)
     ) {
-        LazyColumn(modifier = Modifier
-            .fillMaxSize()
-            .padding(10.dp)) {
+        AnimatedVisibility(
+            visibleState = triggerAnimation,
+            enter = fadeIn(animationSpec = tween(1000)) + slideInVertically(initialOffsetY = { fullHeight -> fullHeight }, animationSpec = tween(1000))
+        ) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(10.dp)
+        ) {
 
             // Today's weather details
             item {
@@ -77,15 +97,16 @@ fun LocationInfo(
                         fontSize = 20.sp,
                         color = MaterialTheme.colorScheme.onPrimary
                     )
-                    LazyRow(modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            brush = Brush.verticalGradient(
-                                colors = customBackground
-                            ),
-                            shape = MaterialTheme.shapes.medium,
-                            alpha = 0.9F
-                        )
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    colors = customBackground
+                                ),
+                                shape = MaterialTheme.shapes.medium,
+                                alpha = 0.9F
+                            )
                     ) {
                         items(forecastTodayList) { forecast ->
 
@@ -97,14 +118,20 @@ fun LocationInfo(
             }
 
             item {
-                Row(horizontalArrangement = Arrangement.Center,
+                Row(
+                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(10.dp)
                 ) {
-                    Image(painter = painterResource(id = R.drawable.date_range_foreground), contentDescription = "Date", modifier = Modifier.size(50.dp))
-                    Text(text = "5-Day Forecast",
+                    Image(
+                        painter = painterResource(id = R.drawable.date_range_foreground),
+                        contentDescription = "Date",
+                        modifier = Modifier.size(50.dp)
+                    )
+                    Text(
+                        text = "5-Day Forecast",
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 24.sp,
                         color = MaterialTheme.colorScheme.onPrimary
@@ -132,15 +159,16 @@ fun LocationInfo(
                     )
 
                     // List of forecast items for this day
-                    LazyRow(modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            brush = Brush.verticalGradient(
-                                colors = customBackground
-                            ),
-                            shape = MaterialTheme.shapes.medium,
-                            alpha = 0.9F
-                        )
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    colors = customBackground
+                                ),
+                                shape = MaterialTheme.shapes.medium,
+                                alpha = 0.9F
+                            )
                     ) {
                         items(forecasts) { forecast ->
                             ForecastItem(forecast) // Pass forecast data to ForecastItem
@@ -149,6 +177,7 @@ fun LocationInfo(
                 }
             }
         }
+    }
     }
 }
 

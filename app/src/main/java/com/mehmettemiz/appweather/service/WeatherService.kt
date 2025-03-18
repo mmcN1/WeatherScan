@@ -22,4 +22,17 @@ interface WeatherService {
         @Query("lon") longitude : Double,
         @Query("units") units : String = "metric"
     ) : Response<ForecastModel>
+
+    @GET("weather?appid=ed0ce0871815789bb4e7258b559032e2")
+suspend fun getWeatherByCityName(
+    @Query("q") cityName : String,
+    @Query("units") units : String = "metric"
+) : Response<WeatherModel>
+
+@GET("forecast?appid=ed0ce0871815789bb4e7258b559032e2")
+suspend fun getForecastByCityName(
+    @Query("q") cityName : String,
+    @Query("units") units : String = "metric"
+) : Response<ForecastModel>
+
 }

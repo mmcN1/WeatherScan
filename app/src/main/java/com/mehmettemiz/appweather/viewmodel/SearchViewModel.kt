@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.PlaceTypes
+import com.google.android.libraries.places.api.model.kotlin.place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
@@ -71,6 +73,14 @@ class SearchViewModel(context: Context) : ViewModel() {
 
         val request = FindAutocompletePredictionsRequest.builder()
             .setQuery(value)
+            .setTypesFilter(
+                listOf(
+                    PlaceTypes.COUNTRY,
+                    PlaceTypes.ADMINISTRATIVE_AREA_LEVEL_1,
+                    PlaceTypes.ADMINISTRATIVE_AREA_LEVEL_2,
+                    PlaceTypes.ADMINISTRATIVE_AREA_LEVEL_3
+                    )
+            )
             .build()
 
         placesClient.findAutocompletePredictions(request)
@@ -93,11 +103,13 @@ class SearchViewModel(context: Context) : ViewModel() {
     }
 
 
-    private fun fetchWeather(lat: Double, lon: Double) {
+    private fun fetchWeather(cityName: String? = null, latitude: Double? = null, longitude: Double? = null) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = retrofit.getWeatherByLocation(lat, lon, "metric")
-                if (response.isSuccessful) {
+                // İlk olarak cityName ile hava durumu verisi almayı deneyelim
+                val response = retrofit.getWeatherByCityName(cityName ?: "", "metric")
+
+                if (response.isSuccessful && response.body() != null) {
                     response.body()?.let { body ->
                         // Ensure weather is not empty
                         val weatherList = body.weather
@@ -120,13 +132,60 @@ class SearchViewModel(context: Context) : ViewModel() {
                             }
                         } else {
                             // Handle case where weather list is empty
-                            println("Weather data is empty")
+                            println("Weather data is empty for $cityName")
+                            fetchWeatherByLocation(latitude, longitude)
+                        }
+                    }
+                } else {
+                    // Eğer cityName ile veri gelmediyse veya response başarısız olduysa, latitude ve longitude ile dene
+                    println("CityName not found or response failed, trying by location")
+                    fetchWeatherByLocation(latitude, longitude)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // Handle error case
+                withContext(Dispatchers.Main) {
+                    _searchWeatherList.postValue(emptyList())
+                }
+            }
+        }
+    }
+
+    private suspend fun fetchWeatherByLocation(latitude: Double?, longitude: Double?) {
+        if (latitude != null && longitude != null) {
+            try {
+                val response = retrofit.getWeatherByLocation(latitude, longitude, "metric")
+                if (response.isSuccessful && response.body() != null) {
+                    response.body()?.let { body ->
+                        // Ensure weather is not empty
+                        val weatherList = body.weather
+                        if (weatherList.isNotEmpty()) {
+                            // Proceed only if the weather list is non-empty
+                            withContext(Dispatchers.Main) {
+                                _searchWeatherList.postValue(listOf(body))
+
+                                // Set background colors based on weather conditions
+                                val weatherMain = weatherList[0].main
+                                when (weatherMain) {
+                                    "Clear" -> backgroundColor.value = listOf(clearColor1, clearColor2)
+                                    "Snow" -> backgroundColor.value = listOf(snowColor1, snowColor2, snowColor3)
+                                    "Rain" -> backgroundColor.value = listOf(rainColor1, rainColor2)
+                                    "Thunderstorm" -> backgroundColor.value = listOf(thunderstormColor1, thunderstormColor2)
+                                    "Clouds" -> backgroundColor.value = listOf(cloudsColor1, cloudsColor2)
+                                    "Drizzle" -> backgroundColor.value = listOf(drizzleColor1)
+                                    else -> backgroundColor.value = listOf(mistColor1, mistColor2, mistColor3)
+                                }
+                            }
+                        } else {
+                            // Handle case where weather list is empty
+                            println("Weather data is empty for location")
                             withContext(Dispatchers.Main) {
                                 _searchWeatherList.postValue(emptyList())
                             }
                         }
                     }
                 } else {
+                    // Handle response error
                     println("Response Error: ${response.code()}")
                     withContext(Dispatchers.Main) {
                         _searchWeatherList.postValue(emptyList())
@@ -138,6 +197,11 @@ class SearchViewModel(context: Context) : ViewModel() {
                 withContext(Dispatchers.Main) {
                     _searchWeatherList.postValue(emptyList())
                 }
+            }
+        } else {
+            println("Invalid location coordinates")
+            withContext(Dispatchers.Main) {
+                _searchWeatherList.postValue(emptyList())
             }
         }
     }
@@ -172,16 +236,29 @@ class SearchViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun fetchPlaceDetails(placeId: String) {
-        val request = FetchPlaceRequest.newInstance(placeId, listOf(Place.Field.LAT_LNG))
+    fun fetchPlaceDetails(placeId: String, cityname : String) {
+        val request = FetchPlaceRequest.newInstance(placeId, listOf(Place.Field.LAT_LNG, Place.Field.TYPES))
 
         placesClient.fetchPlace(request)
             .addOnSuccessListener { response ->
+                val place = response.place
                 val latLng = response.place.latLng
+                val placeTypes = place.placeTypes
+
+                println("Place Types: $placeTypes")
+
+                var placeType = when {
+                    placeTypes.contains(PlaceTypes.COUNTRY) -> "Country"
+                    placeTypes.contains(PlaceTypes.ADMINISTRATIVE_AREA_LEVEL_1) -> "City"
+                    placeTypes.contains(PlaceTypes.ADMINISTRATIVE_AREA_LEVEL_2) -> "State"
+                    else -> "Unknown"
+                }
+
+
                 if (latLng != null) {
                     selectedLatLng = Pair(latLng.latitude, latLng.longitude)
-                    println("Latitude: ${latLng?.latitude}, Longitude: ${latLng?.longitude}")
-                    fetchWeather(latLng.latitude, latLng.longitude)
+                    println("City Name : $cityname, Place Type : $placeType")
+                    fetchWeather(cityname, latLng.latitude, latLng.longitude)
                     fetchForecast(latLng.latitude, latLng.longitude)
                 }
             }

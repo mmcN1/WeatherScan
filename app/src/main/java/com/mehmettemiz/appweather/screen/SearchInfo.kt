@@ -1,5 +1,12 @@
 package com.mehmettemiz.appweather.screen
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,7 +35,9 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -51,6 +60,7 @@ import com.mehmettemiz.appweather.ui.theme.oswaldFont
 import com.mehmettemiz.appweather.ui.theme.poppinsFont
 import com.mehmettemiz.appweather.viewmodel.SearchViewModel
 import com.mehmettemiz.appweather.viewmodel.WeatherViewModel
+import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,11 +73,12 @@ fun SearchScreen(
     customBackground: List<Color>
 ) {
     var isSearchActive by remember { mutableStateOf(false) }
-    var selectedCityWeather by remember { mutableStateOf<WeatherModel?>(null) }
+    val selectedCityWeather by viewModel.searchWeatherList.observeAsState(null)
 
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(bgColor)
     ) {
         SearchBar(
             query = viewModel.inputText,
@@ -83,12 +94,9 @@ fun SearchScreen(
                     androidx.compose.material3.ListItem(
                         headlineContent = { Text(cityName) },
                         modifier = Modifier.clickable {
-                            viewModel.fetchPlaceDetails(placeId)
+                            viewModel.fetchPlaceDetails(placeId, cityName)
                             isSearchActive = false
 
-                            // Şehri seçtikten sonra bilgileri alıp, göster
-                            selectedCityWeather = viewModel.searchWeatherList.value?.firstOrNull()
-                            println("Seçilen şehir: $cityName, Place ID: $placeId")
 
                         }
                     )
@@ -98,14 +106,19 @@ fun SearchScreen(
         }
 
         // Şehir seçildiyse, detaylı hava durumu bilgisi göster
-        selectedCityWeather?.let {
+        if (selectedCityWeather?.isNotEmpty() == true) {
             SearchInfo(
-                weatherList = listOf(it),
+                weatherList = weatherList,
                 forecastTodayList = forecastTodayList,
                 forecastWeatherList = forecastWeatherList,
                 viewModel = viewModel,
                 customBackground = customBackground
-                )
+            )
+        } else {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Image(painter = painterResource(id = R.drawable.logo), contentDescription = "App logo")
+            }
+
         }
     }
 }
@@ -118,9 +131,21 @@ fun SearchInfo(
     viewModel: SearchViewModel,
     customBackground: List<Color>
 ) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(bgColor)
+    var animationTrigger by remember { mutableStateOf(false) }
+
+    LaunchedEffect(weatherList) {
+        animationTrigger = false
+        delay(500)
+        animationTrigger = true
+    }
+
+    AnimatedVisibility(
+        visible = animationTrigger,
+        enter = fadeIn(animationSpec = tween(1000)) + slideInVertically(initialOffsetY = { fullHeight -> fullHeight }),
+    ) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .background(bgColor)
     ) {
         LazyColumn(modifier = Modifier
             .fillMaxSize()
@@ -146,15 +171,16 @@ fun SearchInfo(
                         fontSize = 20.sp,
                         color = MaterialTheme.colorScheme.onPrimary
                     )
-                    LazyRow(modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            brush = Brush.verticalGradient(
-                                colors = customBackground
-                            ),
-                            shape = MaterialTheme.shapes.medium,
-                            alpha = 0.9F
-                        )
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    colors = customBackground
+                                ),
+                                shape = MaterialTheme.shapes.medium,
+                                alpha = 0.9F
+                            )
                     ) {
                         items(forecastTodayList) { forecast ->
 
@@ -166,14 +192,20 @@ fun SearchInfo(
             }
 
             item {
-                Row(horizontalArrangement = Arrangement.Center,
+                Row(
+                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(10.dp)
                 ) {
-                    Image(painter = painterResource(id = R.drawable.date_range_foreground), contentDescription = "Date", modifier = Modifier.size(50.dp))
-                    Text(text = "5-Day Forecast",
+                    Image(
+                        painter = painterResource(id = R.drawable.date_range_foreground),
+                        contentDescription = "Date",
+                        modifier = Modifier.size(50.dp)
+                    )
+                    Text(
+                        text = "5-Day Forecast",
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 24.sp,
                         color = MaterialTheme.colorScheme.onPrimary
@@ -201,22 +233,24 @@ fun SearchInfo(
                     )
 
                     // List of forecast items for this day
-                    LazyRow(modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            brush = Brush.verticalGradient(
-                                colors = customBackground
-                            ),
-                            shape = MaterialTheme.shapes.medium,
-                            alpha = 0.9F
-                        )
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    colors = customBackground
+                                ),
+                                shape = MaterialTheme.shapes.medium,
+                                alpha = 0.9F
+                            )
                     ) {
                         items(forecasts) { forecast ->
                             SearchForecastItem(forecast) // Pass forecast data to ForecastItem
-                        }
+                         }
                     }
                 }
             }
+        }
         }
     }
 }

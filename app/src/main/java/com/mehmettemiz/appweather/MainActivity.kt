@@ -11,6 +11,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.annotation.RequiresExtension
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material3.BottomAppBar
@@ -22,6 +24,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
@@ -63,6 +66,7 @@ import com.mehmettemiz.appweather.model.WeatherModel
 import com.mehmettemiz.appweather.screen.LocationInfo
 import com.mehmettemiz.appweather.screen.SearchScreen
 import com.mehmettemiz.appweather.ui.theme.AppWeatherTheme
+import com.mehmettemiz.appweather.ui.theme.bgColor
 import com.mehmettemiz.appweather.viewmodel.SearchViewModel
 import com.mehmettemiz.appweather.viewmodel.WeatherViewModel
 
@@ -114,11 +118,11 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             },
-                            containerColor = Color.Black,
-                            contentColor = Color.White
+                            containerColor = Color.DarkGray,
+                            contentColor = Color.White,
                         )
                     }
-                ) {
+                ) {innerPadding ->
                     Box(modifier = Modifier.fillMaxSize()) { // Tam ekran kullanım
                         NavHost(navController = navController, startDestination = "SplashScreen") {
                             composable("SplashScreen") {
@@ -126,27 +130,34 @@ class MainActivity : ComponentActivity() {
                             }
                             composable("LocationInfo") {
                                 if (weatherList.isNotEmpty()) {
-                                    LocationInfo(
-                                        weatherList = weatherList,
-                                        forecastTodayList = forecastTodayList,
-                                        forecastWeatherList = forecastWeatherList,
-                                        viewModel = viewModel,
-                                        customBackground = customBackground
-                                    )
+                                    Box(modifier = Modifier.fillMaxSize().padding(innerPadding)
+                                        , contentAlignment = Alignment.Center) {
+                                        LocationInfo(
+                                            weatherList = weatherList,
+                                            forecastTodayList = forecastTodayList,
+                                            forecastWeatherList = forecastWeatherList,
+                                            viewModel = viewModel,
+                                            customBackground = customBackground
+                                        )
+                                    }
                                 } else {
-                                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                    Box(modifier = Modifier.fillMaxSize().padding(innerPadding)
+                                        , contentAlignment = Alignment.Center) {
                                         CircularProgressIndicator()
                                     }
                                 }
                             }
                             composable("Search") {
-                                SearchScreen(
-                                    viewModel = searchViewModel,
-                                    weatherList = searchWeatherList,
-                                    forecastTodayList = searchForecastTodayList,
-                                    forecastWeatherList = searchForecastWeatherList,
-                                    customBackground = searchCustomBackground
-                                )
+                                Box(modifier = Modifier.fillMaxSize().padding(bottom = 100.dp)
+                                    , contentAlignment = Alignment.Center) {
+                                    SearchScreen(
+                                        viewModel = searchViewModel,
+                                        weatherList = searchWeatherList,
+                                        forecastTodayList = searchForecastTodayList,
+                                        forecastWeatherList = searchForecastWeatherList,
+                                        customBackground = searchCustomBackground
+                                    )
+                                }
                             }
                         }
                     }
