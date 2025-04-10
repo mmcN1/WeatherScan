@@ -9,12 +9,14 @@ This project is an Android application that provides weather information based o
 - The initial screen displayed when the app is launched.
 - Simple design featuring the app name and logo.
 ![SplashScreen1](https://github.com/user-attachments/assets/12377fdb-f9a2-4a43-8184-087d0c7143b3)
+-
 
 ### Location Info Screen:
 - Displays the current weather information based on the user's location.
 - Shows temperature, weather conditions, and location name.
 - Dynamic background color changes based on the current weather.
 ![LocationScreen1](https://github.com/user-attachments/assets/642cfedf-1c77-4843-8d4b-caa1ac9c0a65)
+-
 
 ### Hourly Forecast:
 - Displays hourly weather forecast for the day.
