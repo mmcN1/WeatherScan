@@ -1,44 +1,71 @@
-# 🚀 SplashScreen
-When the app is opened, the user is greeted with the logo and version information.
+# Weather Scan App
 
-In the background, weather data is fetched.
+## Project Description
+This project is an Android application that provides weather information based on the user's location. Users can view current weather conditions, hourly forecasts, and 5-day weather predictions. The app also allows searching for weather data by city, district, or country.
 
-Once the data is received, the user is automatically redirected to the main page.
+## Features
 
-![SplashScreen1](https://github.com/user-attachments/assets/b20be140-da31-42d0-b103-9b096f9464d0)
+### Splash Screen:
+- The initial screen displayed when the app is launched.
+- Simple design featuring the app name and logo.
+![Splash Screen](https://github.com/user-attachments/assets/bea3c658-8145-4b13-9457-797a636de060)
 
-# 📍 LocationInfo (Weather Based on Location)
-Current weather information is displayed based on the user's location.
+### Location Info Screen:
+- Displays the current weather information based on the user's location.
+- Shows temperature, weather conditions, and location name.
+- Dynamic background color changes based on the current weather.
+![Location Info Screen](https://github.com/user-attachments/assets/5647ce15-582f-4cc9-beb2-da41b055b864)
 
-Hourly forecasts for the day and 5-day weather details are provided.
+### Hourly Forecast:
+- Displays hourly weather forecast for the day.
+- Shows hourly temperature, weather conditions, and time.
+- Hourly forecast information is fetched and updated dynamically.
+![Hourly Forecast](https://github.com/user-attachments/assets/5647ce15-582f-4cc9-beb2-da41b055b864)
 
-The background color changes dynamically based on the weather.
-![LocationScreen1](https://github.com/user-attachments/assets/9ff2b67a-2072-44fe-924a-97fd858f4670)
-![LocationScreen2](https://github.com/user-attachments/assets/cb61f84d-3fff-4199-9931-c319a5fd701a)
+### Search Screen:
+- Allows users to search for weather information by city, district, or country.
+- Displays the selected location's current weather and 5-day forecast.
+- Weather data is loaded dynamically with smooth animations.
+![Search Screen](https://github.com/user-attachments/assets/4c39092d-c9f1-4fa8-ac07-04565f0908b5)
 
-# 🔎 SearchScreen (Location Search)
-The user can search for locations such as cities, districts, or countries.
+### 5-Day Forecast:
+- Displays a detailed 5-day weather forecast.
+- Shows the daily high/low temperature, weather conditions, and the day of the week.
+![5-Day Forecast](https://github.com/user-attachments/assets/6a5eca32-99e2-4493-bfc1-c1ee4ad87ea4)
 
-The weather for the selected location is loaded dynamically with animations.
+### Profile Section:
+- An area where users can view and edit their profile information.
+- Includes profile picture and basic information.
+- Contains an option to log out.
 
-Today's and the 5-day forecast are displayed visually.
+## Technologies Used
+- **Android**: The primary platform for app development.
+- **Google Places API**: For location suggestions.
+- **OpenWeatherMap API**: For weather data fetching.
+- **Glide**: For image loading.
+- **MaterialSearchView**: For search functionality.
+- **MVVM**: Architecture for clean data management.
 
-![SearchScreen4](https://github.com/user-attachments/assets/efe662d8-eb1f-4921-8af8-e43d949ae468)
-![SearchScreen3](https://github.com/user-attachments/assets/d9aa03e3-1315-493c-ab0e-62c7206bda7c)
-![SearchScreen2](https://github.com/user-attachments/assets/7568f2b9-e240-47e0-89ee-d5ad4a79c1a7)
+## Setup
 
-# 🧠 ViewModel Structure (Weather & Search)
-The MVVM structure ensures clean and testable data management.
+### Install Required Dependencies:
+- Add necessary dependencies for Google Places, OpenWeatherMap API, and Retrofit to your `build.gradle` file.
 
-Data is fetched from Google Places and OpenWeatherMap APIs.
+### Create a Firebase Project:
+- Create a project in the Firebase console and configure the required settings.
+- Download the `google-services.json` file for your app and add it to your project’s `app` directory.
 
-The background dynamically changes based on the weather.
+### API Configuration:
+- Create accounts with Google Places and OpenWeatherMap.
+- Get the necessary API keys and configure them in your app.
 
+### Run the Application:
+- Open the project in Android Studio.
+- Run the application on a device or emulator.
 
-# 🌐 API and Data Structure
-Data is fetched from the OpenWeatherMap API using Retrofit.
-
-JSON data is parsed using classes like WeatherModel and ForecastList.
-
-Location suggestions are fetched using the Google Places API.
-
+## Usage
+1. Open the app and grant location permissions to retrieve weather information based on your current location.
+2. Browse the current weather and hourly forecast in the Location Info Screen.
+3. Use the **Search Screen** to search for weather data by entering a city, district, or country.
+4. View the 5-day weather forecast for your selected location.
+5. Update your user information or log out from the profile section.
