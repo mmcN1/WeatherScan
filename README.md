@@ -8,7 +8,10 @@ This project is an Android application that provides weather information based o
 ### Splash Screen:
 - The initial screen displayed when the app is launched.
 - Simple design featuring the app name and logo.
-![SplashScreen1](https://github.com/user-attachments/assets/a2909d81-9d89-4cf5-9efb-388c28c85189) ![SplashScreen2](https://github.com/user-attachments/assets/252c6c0a-bf10-4cf5-85db-38244459383d)
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;">
+  <img src="https://github.com/user-attachments/assets/a2909d81-9d89-4cf5-9efb-388c28c85189" alt="SplashScreen1" style="max-width: 48%; height: auto;">
+  <img src="https://github.com/user-attachments/assets/252c6c0a-bf10-4cf5-85db-38244459383d" alt="SplashScreen2" style="max-width: 48%; height: auto;">
+</div>
 
 ### Location Info Screen:
 - Displays the current weather information based on the user's location.
@@ -26,7 +29,10 @@ This project is an Android application that provides weather information based o
 - Allows users to search for weather information by city, district, or country.
 - Displays the selected location's current weather and 5-day forecast.
 - Weather data is loaded dynamically with smooth animations.
-![SearchScreen4](https://github.com/user-attachments/assets/e705509b-dfde-4606-9316-075148e7ac57) ![SearchScreen3](https://github.com/user-attachments/assets/872e3679-2524-426b-be7b-fd8e134c63fd)
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;">
+  <img src="https://github.com/user-attachments/assets/e705509b-dfde-4606-9316-075148e7ac57" alt="SearchScreen4" style="max-width: 48%; height: auto;">
+  <img src="https://github.com/user-attachments/assets/872e3679-2524-426b-be7b-fd8e134c63fd" alt="SearchScreen3" style="max-width: 48%; height: auto;">
+</div>
 
 ### 5-Day Forecast:
 - Displays a detailed 5-day weather forecast.
