@@ -8,8 +8,8 @@ This project is an Android application that provides weather information based o
 ### Splash Screen:
 - The initial screen displayed when the app is launched.
 - Simple design featuring the app name and logo.
-![SplashScreen1](https://github.com/user-attachments/assets/317d2d00-2c29-4cb3-b051-f227ed213246)
-![SplashScreen2](https://github.com/user-attachments/assets/4e846f9b-d3a6-4b87-b233-8c01e46b7139)
+- ![SplashScreen1](https://github.com/user-attachments/assets/317d2d00-2c29-4cb3-b051-f227ed213246)
+- ![SplashScreen2](https://github.com/user-attachments/assets/4e846f9b-d3a6-4b87-b233-8c01e46b7139)
 -
 
 ### Location Info Screen:
