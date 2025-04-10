@@ -8,33 +8,32 @@ This project is an Android application that provides weather information based o
 ### Splash Screen:
 - The initial screen displayed when the app is launched.
 - Simple design featuring the app name and logo.
-- ![SplashScreen1](https://github.com/user-attachments/assets/12377fdb-f9a2-4a43-8184-087d0c7143b3)
-  
-
+![SplashScreen1](https://raw.githubusercontent.com/user-attachments/assets/a2909d81-9d89-4cf5-9efb-388c28c85189)
+![SplashScreen2](https://raw.githubusercontent.com/user-attachments/assets/252c6c0a-bf10-4cf5-85db-38244459383d)
 
 ### Location Info Screen:
 - Displays the current weather information based on the user's location.
 - Shows temperature, weather conditions, and location name.
 - Dynamic background color changes based on the current weather.
-![LocationScreen1](https://github.com/user-attachments/assets/642cfedf-1c77-4843-8d4b-caa1ac9c0a65)
--
+![LocationScreen1](https://raw.githubusercontent.com/user-attachments/assets/dc966882-5ef3-4155-b1bb-14b7405d52f6)
 
 ### Hourly Forecast:
 - Displays hourly weather forecast for the day.
 - Shows hourly temperature, weather conditions, and time.
 - Hourly forecast information is fetched and updated dynamically.
-![LocationScreen2](https://github.com/user-attachments/assets/47d54331-8aa3-4ace-a45b-5165b15d9a06)
+![LocationScreen2](https://raw.githubusercontent.com/user-attachments/assets/10c18e4a-1f8b-4ddf-81fa-4cbedb3078c8)
 
 ### Search Screen:
 - Allows users to search for weather information by city, district, or country.
 - Displays the selected location's current weather and 5-day forecast.
 - Weather data is loaded dynamically with smooth animations.
-![SearchScreen4](https://github.com/user-attachments/assets/02f35a52-9751-44e9-811a-dc4fc0e0e335)
+![SearchScreen4](https://raw.githubusercontent.com/user-attachments/assets/e705509b-dfde-4606-9316-075148e7ac57)
+![SearchScreen3](https://raw.githubusercontent.com/user-attachments/assets/872e3679-2524-426b-be7b-fd8e134c63fd)
 
 ### 5-Day Forecast:
 - Displays a detailed 5-day weather forecast.
 - Shows the daily high/low temperature, weather conditions, and the day of the week.
-![SearchScreen3](https://github.com/user-attachments/assets/cfc6112c-c202-4548-8727-bbbee9a3e6dc)
+![SearchScreen2](https://raw.githubusercontent.com/user-attachments/assets/ccca729e-2b19-4106-92f0-efb47231aa04)
 
 ## Technologies Used
 - **Android**: The primary platform for app development.
