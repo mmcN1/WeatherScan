@@ -149,8 +149,9 @@ fun SearchInfo(
     ) {
         LazyColumn(modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp)) {
-
+            .padding(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             // Today's weather details
             item {
                 SearchTodayInfo(weatherList = weatherList)
@@ -164,16 +165,9 @@ fun SearchInfo(
                         .border(1.dp, Color.Transparent, shape = ShapeDefaults.Medium)
                         .padding(5.dp)
                 ) {
-                    Text(
-                        text = "Today",
-                        modifier = Modifier.padding(start = 10.dp, bottom = 5.dp),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
                     LazyRow(
                         modifier = Modifier
-                            .fillMaxWidth()
+                            .width(500.dp)
                             .background(
                                 brush = Brush.verticalGradient(
                                     colors = customBackground
@@ -235,7 +229,7 @@ fun SearchInfo(
                     // List of forecast items for this day
                     LazyRow(
                         modifier = Modifier
-                            .fillMaxWidth()
+                            .width(500.dp)
                             .background(
                                 brush = Brush.verticalGradient(
                                     colors = customBackground

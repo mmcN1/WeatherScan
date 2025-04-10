@@ -2,6 +2,8 @@ package com.mehmettemiz.appweather
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.graphics.pdf.models.ListItem
 import android.os.Build
 import android.os.Bundle
@@ -50,9 +52,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -79,6 +83,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        viewModel.getLocation(this, this)
+        println("viewModel.getLocation(this, this)")
+
         if (!Places.isInitialized()) {
             Places.initialize(applicationContext, "AIzaSyD8EWmmzViIz9m6oMO3IHGzUbDhcBQFQ_0")
         }
@@ -86,7 +93,6 @@ class MainActivity : ComponentActivity() {
         searchViewModel = ViewModelProvider(this, SearchViewModelFactory(applicationContext)) [SearchViewModel::class.java]
 
         setContent {
-            viewModel.getLocation(this, this)
             val weatherList by viewModel.weatherList.observeAsState(emptyList())
             val forecastTodayList by viewModel.forecastTodayList.observeAsState(emptyList())
             val forecastWeatherList by viewModel.forecastWeatherList.observeAsState(emptyMap())
@@ -95,6 +101,7 @@ class MainActivity : ComponentActivity() {
             val searchForecastTodayList by searchViewModel.searchForecastTodayList.observeAsState(emptyList())
             val searchForecastWeatherList by searchViewModel.searchForecastWeatherList.observeAsState(emptyMap())
             val searchCustomBackground by viewModel.backgroundColor.observeAsState(emptyList())
+
 
 
             val navController = rememberNavController()
@@ -165,13 +172,33 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    @Deprecated("This method has been deprecated in favor of using the Activity Result API\n      which brings increased type safety via an {@link ActivityResultContract} and the prebuilt\n      contracts for common intents available in\n      {@link androidx.activity.result.contract.ActivityResultContracts}, provides hooks for\n      testing, and allow receiving results in separate, testable classes independent from your\n      activity. Use\n      {@link #registerForActivityResult(ActivityResultContract, ActivityResultCallback)} passing\n      in a {@link RequestMultiplePermissions} object for the {@link ActivityResultContract} and\n      handling the result in the {@link ActivityResultCallback#onActivityResult(Object) callback}.")
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == 101) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                viewModel.getLocation(this, this)
+                println("onLocationResult")
+            } else {
+                println("Failed")
+            }
+        }
+    }
 }
 
 @Composable
 fun SplashScreen(
     navController: NavController,
-    weatherList: List<WeatherModel>
+    weatherList: List<WeatherModel>,
 ) {
+    val versionName = getAppVersionName()
+
     LaunchedEffect(weatherList) {
         if (weatherList.isNotEmpty()) {
             navController.navigate("LocationInfo") {
@@ -182,13 +209,20 @@ fun SplashScreen(
 
     // Splash ekranı içeriği
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Image(painter = painterResource(id = R.drawable.logo), contentDescription = "App logo")
+        Column {
+            Image(painter = painterResource(id = R.drawable.logo), contentDescription = "App logo")
+            Text(text = versionName)
+        }
     }
 }
 
-
-
-
+@Composable
+fun getAppVersionName(): String {
+    val context = LocalContext.current
+    val packageManager: PackageManager = context.packageManager
+    val packageInfo: PackageInfo = packageManager.getPackageInfo(context.packageName, 0)
+    return packageInfo.versionName ?: "Unknown"
+}
 
 
 

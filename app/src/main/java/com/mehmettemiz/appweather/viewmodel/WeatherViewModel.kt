@@ -57,6 +57,8 @@ import java.util.Locale
 class WeatherViewModel : ViewModel() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    val requestGranted = MutableLiveData<Boolean>(false)
+
     private val _loading = MutableLiveData(true)
     val loading: LiveData<Boolean> = _loading
     private val _weatherList = MutableLiveData<List<WeatherModel>>()
@@ -69,7 +71,8 @@ class WeatherViewModel : ViewModel() {
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
-    private val retrofit: WeatherService = BaseWeatherService.createService(WeatherService::class.java)
+    private val retrofit: WeatherService =
+        BaseWeatherService.createService(WeatherService::class.java)
 
     fun fetchWeather(lat: Double, lon: Double) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -87,7 +90,8 @@ class WeatherViewModel : ViewModel() {
                             } else if (it.weather[0].main == "Rain") {
                                 backgroundColor.value = listOf(rainColor1, rainColor2)
                             } else if (it.weather[0].main == "Thunderstorm") {
-                                backgroundColor.value = listOf(thunderstormColor1, thunderstormColor2)
+                                backgroundColor.value =
+                                    listOf(thunderstormColor1, thunderstormColor2)
                             } else if (it.weather[0].main == "Clouds") {
                                 backgroundColor.value = listOf(cloudsColor1, cloudsColor2)
                             } else if (it.weather[0].main == "Drizzle") {
@@ -153,10 +157,17 @@ class WeatherViewModel : ViewModel() {
     fun getLocation(context: Context, activity: Activity) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            _errorMessage.postValue("Konum izni gerekli. Lütfen izin verin.")
-            ActivityCompat.requestPermissions(activity,
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                activity,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 101
             )
@@ -166,7 +177,9 @@ class WeatherViewModel : ViewModel() {
         fusedLocationClient.getCurrentLocation(
             LocationRequest.PRIORITY_HIGH_ACCURACY,
             object : CancellationToken() {
-                override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
+                override fun onCanceledRequested(p0: OnTokenCanceledListener) =
+                    CancellationTokenSource().token
+
                 override fun isCancellationRequested() = false
             }
         ).addOnSuccessListener {
