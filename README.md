@@ -16,25 +16,28 @@ This project is an Android application that provides weather information based o
 - Displays the current weather information based on the user's location.
 - Shows temperature, weather conditions, and location name.
 - Dynamic background color changes based on the current weather.
-![LocationScreen1](https://raw.githubusercontent.com/user-attachments/assets/dc966882-5ef3-4155-b1bb-14b7405d52f6)
+- ![LocationScreen1](https://github.com/user-attachments/assets/62e401f2-5364-4a10-920f-0c735c603f52)
+
 
 ### Hourly Forecast:
 - Displays hourly weather forecast for the day.
 - Shows hourly temperature, weather conditions, and time.
 - Hourly forecast information is fetched and updated dynamically.
-![LocationScreen2](https://raw.githubusercontent.com/user-attachments/assets/10c18e4a-1f8b-4ddf-81fa-4cbedb3078c8)
+- ![LocationScreen2](https://github.com/user-attachments/assets/219307f9-4601-4d3a-98fa-e419f9294083)
+
 
 ### Search Screen:
 - Allows users to search for weather information by city, district, or country.
 - Displays the selected location's current weather and 5-day forecast.
 - Weather data is loaded dynamically with smooth animations.
-![SearchScreen4](https://raw.githubusercontent.com/user-attachments/assets/e705509b-dfde-4606-9316-075148e7ac57)
-![SearchScreen3](https://raw.githubusercontent.com/user-attachments/assets/872e3679-2524-426b-be7b-fd8e134c63fd)
+- ![SearchScreen4](https://github.com/user-attachments/assets/1827cf1f-71f1-4ec5-84ab-f0ab40db6e20)
+  ![SearchScreen3](https://github.com/user-attachments/assets/a7db1d83-069d-4658-8d97-7d6302e4c170)
+
 
 ### 5-Day Forecast:
 - Displays a detailed 5-day weather forecast.
 - Shows the daily high/low temperature, weather conditions, and the day of the week.
-![SearchScreen2](https://raw.githubusercontent.com/user-attachments/assets/ccca729e-2b19-4106-92f0-efb47231aa04)
+- ![SearchScreen2](https://github.com/user-attachments/assets/cf736dd6-b389-4301-be46-eb2f46ba7924)
 
 ## Technologies Used
 - **Android**: The primary platform for app development.
