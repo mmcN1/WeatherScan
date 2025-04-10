@@ -8,35 +8,30 @@ This project is an Android application that provides weather information based o
 ### Splash Screen:
 - The initial screen displayed when the app is launched.
 - Simple design featuring the app name and logo.
-![Splash Screen](https://github.com/user-attachments/assets/bea3c658-8145-4b13-9457-797a636de060)
+![SplashScreen1](https://github.com/user-attachments/assets/a2909d81-9d89-4cf5-9efb-388c28c85189) ![SplashScreen2](https://github.com/user-attachments/assets/252c6c0a-bf10-4cf5-85db-38244459383d)
 
 ### Location Info Screen:
 - Displays the current weather information based on the user's location.
 - Shows temperature, weather conditions, and location name.
 - Dynamic background color changes based on the current weather.
-![Location Info Screen](https://github.com/user-attachments/assets/5647ce15-582f-4cc9-beb2-da41b055b864)
+![LocationScreen1](https://github.com/user-attachments/assets/dc966882-5ef3-4155-b1bb-14b7405d52f6)
 
 ### Hourly Forecast:
 - Displays hourly weather forecast for the day.
 - Shows hourly temperature, weather conditions, and time.
 - Hourly forecast information is fetched and updated dynamically.
-![Hourly Forecast](https://github.com/user-attachments/assets/5647ce15-582f-4cc9-beb2-da41b055b864)
+![LocationScreen2](https://github.com/user-attachments/assets/10c18e4a-1f8b-4ddf-81fa-4cbedb3078c8)
 
 ### Search Screen:
 - Allows users to search for weather information by city, district, or country.
 - Displays the selected location's current weather and 5-day forecast.
 - Weather data is loaded dynamically with smooth animations.
-![Search Screen](https://github.com/user-attachments/assets/4c39092d-c9f1-4fa8-ac07-04565f0908b5)
+![SearchScreen4](https://github.com/user-attachments/assets/e705509b-dfde-4606-9316-075148e7ac57) ![SearchScreen3](https://github.com/user-attachments/assets/872e3679-2524-426b-be7b-fd8e134c63fd)
 
 ### 5-Day Forecast:
 - Displays a detailed 5-day weather forecast.
 - Shows the daily high/low temperature, weather conditions, and the day of the week.
-![5-Day Forecast](https://github.com/user-attachments/assets/6a5eca32-99e2-4493-bfc1-c1ee4ad87ea4)
-
-### Profile Section:
-- An area where users can view and edit their profile information.
-- Includes profile picture and basic information.
-- Contains an option to log out.
+![SearchScreen2](https://github.com/user-attachments/assets/ccca729e-2b19-4106-92f0-efb47231aa04)
 
 ## Technologies Used
 - **Android**: The primary platform for app development.
@@ -50,10 +45,6 @@ This project is an Android application that provides weather information based o
 
 ### Install Required Dependencies:
 - Add necessary dependencies for Google Places, OpenWeatherMap API, and Retrofit to your `build.gradle` file.
-
-### Create a Firebase Project:
-- Create a project in the Firebase console and configure the required settings.
-- Download the `google-services.json` file for your app and add it to your project’s `app` directory.
 
 ### API Configuration:
 - Create accounts with Google Places and OpenWeatherMap.
