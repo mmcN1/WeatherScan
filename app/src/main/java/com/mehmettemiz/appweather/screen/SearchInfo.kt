@@ -256,7 +256,7 @@ fun SearchTodayInfo(weatherList : List<WeatherModel>) {
     LazyColumn(modifier = Modifier
         .padding(4.dp)
         .width(500.dp)
-        .height(400.dp)
+        .height(430.dp)
     ) {
         items(weatherList) {weather ->
             SearchWeatherDetailes(weather = weather)
@@ -469,7 +469,7 @@ fun SearchForecastItem(forecast: ForecastList) {
         modifier = Modifier
             .padding(4.dp)
             .background(Color.Transparent)
-            .padding(start = 30.dp, bottom = 10.dp, top = 10.dp, end = 30.dp),
+            .padding(start = 30.dp, bottom = 15.dp, top = 10.dp, end = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
     ) {

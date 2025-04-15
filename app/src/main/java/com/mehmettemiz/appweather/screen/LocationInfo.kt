@@ -182,7 +182,7 @@ fun TodayInfo(weatherList : List<WeatherModel>) {
     LazyColumn(modifier = Modifier
         .padding(4.dp)
         .width(500.dp)
-        .height(400.dp)
+        .height(430.dp)
     ) {
         items(weatherList) {weather ->
             WeatherDetailes(weather = weather)
